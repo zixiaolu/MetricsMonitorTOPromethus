@@ -1,0 +1,7 @@
+zookeeperIp = "10.2.131.75:2181"
+monitorPath = "/DubboMetricsMonitor"
+timeOut = 5000
+refreshTime = 60000
+fileName = "sd.json"
+env = "dev"
+job = "dubbo-metrics"

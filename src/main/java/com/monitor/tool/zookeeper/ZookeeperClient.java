@@ -1,27 +1,33 @@
 package com.monitor.tool.zookeeper;
 
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.ZooKeeper;
 
-import java.io.IOException;
+import com.monitor.config.InitConfig;
+import com.monitor.config.beans.MonitorConfig;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.retry.ExponentialBackoffRetry;
+
 
 public class ZookeeperClient {
 
-    private static int TIMEOUT_MILLIS = 5000;
+    private static int MAX_RETRIES = 3;
 
-    private static String ROOT = "/DubboMetricsMonitor";
+    private static int SLEEP_TIME = 1000;
 
-    public static ZooKeeper getClient(String Url,Watcher method)
-    {
-        ZooKeeper zooKeeper = null;
-        try {
-            zooKeeper = new ZooKeeper(Url,TIMEOUT_MILLIS,method);
+    private static CuratorFramework CLIENT;
+
+    public static CuratorFramework getClient() {
+        if(CLIENT == null)
+        {
+            MonitorConfig monitorConfig = InitConfig.getMonitorConfig();
+            ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(SLEEP_TIME, MAX_RETRIES);
+            CLIENT = CuratorFrameworkFactory
+                    .builder()
+                    .connectString(monitorConfig.getZookeeperIp())
+                    .sessionTimeoutMs(monitorConfig.getTimeOut())
+                    .retryPolicy(retryPolicy)
+                    .build();
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return zooKeeper;
+        return CLIENT;
     }
-
 }
