@@ -3,6 +3,7 @@ package com.monitor;
 import com.monitor.config.InitConfig;
 import com.monitor.config.beans.MonitorConfig;
 import com.monitor.tool.constructfile.FileSdManager;
+import com.monitor.tool.zookeeper.IManager.InitMetrics;
 import com.monitor.tool.zookeeper.IManager.ListenMetrics;
 
 import java.io.IOException;
@@ -14,6 +15,8 @@ public class MainApplication {
         MonitorConfig monitorConfig = InitConfig.getMonitorConfig();
         FileSdManager.init();
         ListenMetrics listenMetrics = new ListenMetrics();
+        InitMetrics initMetrics = new InitMetrics();
+        initMetrics.init();
         //多线程集中刷新数据
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -21,8 +24,8 @@ public class MainApplication {
                 try {
                     while (true)
                     {
-                        Thread.sleep(monitorConfig.getRefreshTime());
                         FileSdManager.refresh();
+                        Thread.sleep(monitorConfig.getRefreshTime());
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();

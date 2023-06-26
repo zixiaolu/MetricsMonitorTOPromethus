@@ -33,7 +33,7 @@ public class ListenMetrics {
                             prometheusFileSdData.getTargets().remove(oldIp);
                             prometheusFileSdData.getTargets().add(newIp);
                             FileSdManager.needRefresh();
-                            System.out.println("node change");
+                            System.out.println("node change-->Path:"+ oldData.getPath());
                         }
                         break;
                     case NODE_DELETED:
@@ -41,7 +41,7 @@ public class ListenMetrics {
                         {
                             prometheusFileSdData.getTargets().remove(oldIp);
                             FileSdManager.needRefresh();
-                            System.out.println("node delete");
+                            System.out.println("node delete-->Path:"+ oldData.getPath());
                         }
                         break;
                     case NODE_CREATED:
@@ -49,14 +49,13 @@ public class ListenMetrics {
                         {
                             prometheusFileSdData.getTargets().add(newIp);
                             FileSdManager.needRefresh();
-                            System.out.println("node create");
+                            System.out.println("node create-->Path:"+ newData.getPath());
                         }
                         break;
                 }
             }
         });
         try {
-            client.start();
             curatorCache.start();
             Thread.currentThread().join();
         }finally {
