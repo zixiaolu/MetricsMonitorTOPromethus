@@ -22,8 +22,16 @@ public class ListenMetrics {
             @Override
             public void event(Type type, ChildData oldData, ChildData newData) {
                 PrometheusFileSdData prometheusFileSdData = FileSdManager.getMetricsSd();
-                String oldIp = new String(oldData.getData());
-                String newIp = new String(newData.getData());
+                String oldIp = "";
+                String newIp = "";
+                if(oldData!=null)
+                {
+                    oldIp = new String(oldData.getData());
+                }
+                if(newData!=null)
+                {
+                    newIp = new String(newData.getData());
+                }
                 switch (type)
                 {
                     case NODE_CHANGED:
@@ -31,8 +39,11 @@ public class ListenMetrics {
                            IPAddressValidator.isValidIPPort(newIp))
                         {
                             prometheusFileSdData.getTargets().remove(oldIp);
-                            prometheusFileSdData.getTargets().add(newIp);
-                            FileSdManager.needRefresh();
+                            if(!prometheusFileSdData.getTargets().contains(newIp))
+                            {
+                                prometheusFileSdData.getTargets().add(newIp);
+                                FileSdManager.needRefresh();
+                            }
                             System.out.println("node change-->Path:"+ oldData.getPath());
                         }
                         break;
@@ -47,8 +58,11 @@ public class ListenMetrics {
                     case NODE_CREATED:
                         if(IPAddressValidator.isValidIPPort(newIp))
                         {
-                            prometheusFileSdData.getTargets().add(newIp);
-                            FileSdManager.needRefresh();
+                            if(!prometheusFileSdData.getTargets().contains(newIp))
+                            {
+                                prometheusFileSdData.getTargets().add(newIp);
+                                FileSdManager.needRefresh();
+                            }
                             System.out.println("node create-->Path:"+ newData.getPath());
                         }
                         break;
