@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Main-Class: com.monitor.MainApplication
+Class-Path: netty-handler-4.1.86.Final.jar commons-io-2.11.0.jar netty-t
+ ransport-classes-epoll-4.1.86.Final.jar netty-codec-4.1.86.Final.jar zo
+ okeeper-3.8.1.jar netty-common-4.1.86.Final.jar zookeeper-jute-3.8.1.ja
+ r quartz-2.3.2.jar netty-resolver-4.1.86.Final.jar netty-transport-nati
+ ve-epoll-4.1.86.Final.jar netty-buffer-4.1.86.Final.jar slf4j-api-1.7.3
+ 0.jar mchange-commons-java-0.2.15.jar c3p0-0.9.5.4.jar netty-transport-
+ native-unix-common-4.1.86.Final.jar logback-core-1.2.10.jar fastjson2-2
+ .0.34.jar audience-annotations-0.12.0.jar HikariCP-java7-2.4.13.jar log
+ back-classic-1.2.10.jar netty-transport-4.1.86.Final.jar
+
